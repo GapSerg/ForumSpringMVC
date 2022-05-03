@@ -1,6 +1,9 @@
 package org.example.config;
 
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+
 
 public class MySpringMVCServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -17,4 +20,6 @@ public class MySpringMVCServletInitializer extends AbstractAnnotationConfigDispa
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+
+
 }
