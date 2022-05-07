@@ -4,13 +4,11 @@ package org.example.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User {
 
-    @Setter
+    @Getter
     int id;
     @Setter
     @Getter
@@ -22,51 +20,40 @@ public class User {
     @Setter
     @Getter
     private String email;
-    private Date birthDate=new Date();
+    @Setter
+    @Getter
+    private String birthDate;
 
-    public Date getBirthDate() {
-        return birthDate;
+    @Setter
+    @Getter
+    private ROLE role = ROLE.USER;
+
+    public User(int id, String name, String password, String email, String birthDate, ROLE role) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.role = role;
     }
 
-    public void setBirthDate(String birthDate) {
-        try {
-            this.birthDate = format.parse(birthDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ROLE role = ROLE.USER;
-
-    public ROLE getRole() {
-        return role;
-    }
-
-    public void setRole(User userWhoChangeRole, ROLE role) {
+    public void changeRole(User userWhoChangeRole, ROLE role) {
         if (this.role == ROLE.ADMIN)
             userWhoChangeRole.role = role;
     }
 
 
-    private static int idInc;
-    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM");
 
-
-    public User(String name, String birthDate, String email, String password) {
-        this.id = ++idInc;
-        try {
-            this.birthDate = format.parse(birthDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    public User(int id,String name, String birthDate, String email, String password) {
+        this.id=id;
+        this.birthDate = birthDate;
         this.name = name;
         this.password = password;
         this.email = email;
     }
 
     public User() {
-        this.id = ++idInc;
-    }
+            }
 
     @Override
     public String toString() {
@@ -74,14 +61,14 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", birthDate=" + birthDate.toString() +
+                ", birthDate=" + birthDate +
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 '}';
     }
 
     public enum ROLE {
-        USER, ADMIN, UNKNOWN
+        USER, ADMIN
     }
 
 }

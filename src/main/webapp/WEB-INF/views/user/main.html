@@ -12,7 +12,11 @@
   </style>
 </head>
 <body>
-
 <h1> Hello, <b th:text="${user.name}"/>, you password is <b th:text="${user.password}"/>  </h1>
+
+<div th:each="u: ${allUsers}">
+    <a th:href="@{/people/{id}(id=${u.getId()})}" th:text="${u.getName()}">user</a>
+</div>
+
 </body>
 </html>

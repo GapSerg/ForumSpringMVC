@@ -23,6 +23,8 @@ input {
   display: block;
 }
 
+
+
 .registration-cssave{
   padding:50px 0;
 }
@@ -74,4 +76,21 @@ input {
   .registration-cssave form {
     padding:50px 20px;
   }
+
+
 }
+#blink {
+    -webkit-animation: blink 3s linear infinite;
+    animation: blink 3s linear infinite;
+    color: red;
+  }
+  @-webkit-keyframes blink {
+    50% { color: red; }
+
+    100% { color: rgba(100, 0, 0, 0); }
+  }
+  @keyframes blink {
+    50% { color: red; }
+
+    100% { color: rgba(100, 0, 0, 0); }
+  }
