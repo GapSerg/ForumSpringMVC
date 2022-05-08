@@ -3,9 +3,6 @@ package org.example.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
-
 public class User {
 
     @Getter
@@ -16,7 +13,6 @@ public class User {
     @Setter
     @Getter
     private String password;
-
     @Setter
     @Getter
     private String email;

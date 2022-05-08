@@ -17,16 +17,16 @@ public class Message {
     private Date date;
     @Getter
     @Setter
-    private int author;
+    private User author;
     @Getter
     @Setter
-    private int branch;
+    private Branch branch;
 
     public Message() {
 
     }
 
-    public Message(int id, String text, Date date, int author, int branch) {
+    public Message(int id, String text, Date date, User author, Branch branch) {
         this.id = id;
         this.text = text;
         this.date = date;

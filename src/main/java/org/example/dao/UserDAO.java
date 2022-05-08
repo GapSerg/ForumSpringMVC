@@ -1,15 +1,15 @@
 package org.example.dao;
-
-
 import org.example.model.User;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class UserDAO {
     private static int countUser;
+
+    public UserDAO() {
+           }
 
     private List<User> users;
 
@@ -21,10 +21,6 @@ public class UserDAO {
         users.add(new User(++countUser, "John", "1991-05-06", "john@con.ru", "4444"));
     }
 
-
-    public UserDAO() {
-
-    }
     public List<User> getAll(){
         return users;
     }

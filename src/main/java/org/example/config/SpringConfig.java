@@ -1,5 +1,7 @@
 package org.example.config;
 
+import org.example.dao.BranchDAO;
+import org.example.dao.MessageDAO;
 import org.example.dao.UserDAO;
 import org.example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +47,6 @@ public class SpringConfig implements WebMvcConfigurer {
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
-
-
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {

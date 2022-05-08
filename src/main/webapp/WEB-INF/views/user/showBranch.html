@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Show</title>
+</head>
+<body>
+
+<div> <b>This branch is name</b> <i th:text="${branch.getName()}"> value</i> </div>
+
+<hr>
+
+<div th:each="m: ${branchMessages}">
+
+  <b th:text="${m.getAuthor().getName()}">name</b>  <b> write:</b> <i th:text="${m.getText()}">text</i>
+
+
+</div>
+<br>
+<br>
+
+<form method="post" th:action="@{/user/branch/{id}(id=${branch.getId()})}" >
+<div> <b th:text="${user.getName()}"></b> <b>you message: </b></div>
+
+
+ <p><textarea rows="5" cols="45" name="text"></textarea></p>
+ <p><input type="submit" value="Отправить"></p>
+</form>
+
+
+<input type="button" onClick='location.href="/user"' value = "to Main" />
+<br>
+<br>
+<form method="get" action="/quit">
+  <input type = "submit" value = "Quit" />
+</form>
+
+
+</body>
+</html>

@@ -14,9 +14,31 @@
 <body>
 <h1> Hello, <b th:text="${user.name}"/>, you password is <b th:text="${user.password}"/>  </h1>
 
+<h2> Наши пользователи</h2>
 <div th:each="u: ${allUsers}">
-    <a th:href="@{/people/{id}(id=${u.getId()})}" th:text="${u.getName()}">user</a>
+    <a th:href="@{/user/{id}(id=${u.getId()})}" th:text="${u.getName()}">user</a>
 </div>
+
+<h2> Темы нашего чата</h2>
+<div th:each="b: ${allBranches}">
+    <a th:href="@{/user/branch/{id}(id=${b.getId()})}" th:text="${b.getName()}">branch</a>
+</div>
+
+<p/><p/><p/><p/>
+<form method="post" th:action="@{/user/newBranch}" >
+    <div> <b th:text="${user.getName()}"></b> <b>, you can create new branch, enter name: </b></div>
+
+
+    <p><textarea rows="2" cols="45" name="text"></textarea></p>
+    <p><input type="submit" value="создать"></p>
+</form>
+
+
+
+<p/><p/><p/><p/>
+<form method="get" action="/quit">
+    <input type = "submit" value = "Quit" />
+</form>
 
 </body>
 </html>

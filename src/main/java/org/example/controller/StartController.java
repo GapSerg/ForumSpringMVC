@@ -1,5 +1,4 @@
 package org.example.controller;
-
 import org.example.dao.BranchDAO;
 import org.example.dao.UserDAO;
 import org.example.model.User;
@@ -14,18 +13,15 @@ import javax.servlet.http.HttpSession;
 
 
 @Controller
-
 public class StartController {
 
     private final UserDAO userDAO;
-    private final BranchDAO branchDAO;
+
 
 
     @Autowired
-    public StartController(UserDAO userDAO, BranchDAO branchDAO) {
+    public StartController(UserDAO userDAO){
         this.userDAO = userDAO;
-        this.branchDAO=branchDAO;
-
     }
 
     @GetMapping("/start")
@@ -33,6 +29,11 @@ public class StartController {
 
 
         return "start";
+    }
+    @GetMapping("/quit")
+    public String quitToStartPage(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:start";
     }
 
     @GetMapping("/registration")

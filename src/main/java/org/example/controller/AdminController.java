@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
-@Controller
-@RequestMapping("/admin")
+//@Controller
+//@RequestMapping("/admin")
 public class AdminController {
 
     private final UserDAO userDAO;
 
-    @Autowired
+   // @Autowired
     public AdminController(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
-    @GetMapping()
+  //  @GetMapping()
     public String startPage(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("user");
         System.out.println("Main/Admin for  User id="+ currentUser.getId());
