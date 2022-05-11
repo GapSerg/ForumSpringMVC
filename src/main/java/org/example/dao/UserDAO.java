@@ -16,8 +16,8 @@ public class UserDAO {
     {
         users = new ArrayList<>();
         users.add(new User(++countUser, "Nick", "1990-01-06", "nick@con.ru", "1111"));
-        users.add(new User(++countUser, "Bill", "1992-06-06", "bill@con.ru", "2222"));
-        users.add(new User(++countUser, "Tom", "1994-06-06", "tom@con.ru", "3333"));
+        users.add(new User(++countUser, "Bill", "1992-06-06", "bill@con.ru", "2222", User.ROLE.ADMIN));
+        users.add(new User(++countUser, "Tomm", "1994-06-06", "tom@con.ru", "3333"));
         users.add(new User(++countUser, "John", "1991-05-06", "john@con.ru", "4444"));
     }
 
@@ -25,12 +25,12 @@ public class UserDAO {
         return users;
     }
 
-    public User read(int id) {
+    public User getById(int id) {
         return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
 
     }
 
-    public User read(String name, String password) {
+    public User getByName(String name, String password) {
         return users.stream().filter(user -> (user.getName().equals(name)) & (user.getPassword().equals(password))).findAny().orElse(null);
 
     }
@@ -45,7 +45,7 @@ public class UserDAO {
 
 
     public void update(int id, User dataUserForUpdate) {
-        User user= read(id);
+        User user= getById(id);
         user.setPassword(dataUserForUpdate.getPassword());
         user.setName(dataUserForUpdate.getName());
         user.setEmail(dataUserForUpdate.getEmail());

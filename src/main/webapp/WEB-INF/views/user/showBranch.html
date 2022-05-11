@@ -1,38 +1,73 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-  <meta charset="UTF-8">
-  <title>Show</title>
+    <meta charset="UTF-8">
+    <title>Show</title>
+    <style type="text/css">
+        table {width: 100%; }
+        th { border-bottom: 2px solid red;}
+         #col1 {  font-size: 1em;
+              font-weight: bold;
+              text-align: center;
+              width: 100px}
+               #col2 {  font-size: 1em;
+              font-weight: bold;
+              text-align: left;}
+               #col3 {  font-size: 1em;
+              font-weight: bold;
+              text-align: center;
+              width: 200px}
+              h1{ width: 100%;
+                text-align: center;
+              }
+
+
+    </style>
 </head>
 <body>
 
-<div> <b>This branch is name</b> <i th:text="${branch.getName()}"> value</i> </div>
-
-<hr>
-
-<div th:each="m: ${branchMessages}">
-
-  <b th:text="${m.getAuthor().getName()}">name</b>  <b> write:</b> <i th:text="${m.getText()}">text</i>
+<h1> This branch is name <i th:text="${branch.getName()}"> value</i></h1>
 
 
-</div>
+<table>
+    <tr>
+        <th> User</th>
+        <th>Message</th>
+        <th>Date</th>
+    </tr>
+
+   <th:block th:each="m: ${branchMessages}">
+       <tr>
+           <td id = "col1" th:text="${m.getAuthor().getName()}">name</td>
+           <td id = "col2"  th:text="${m.getText()}"> <pre>text</pre></td>
+           <td id = "col3" th:text="${m.getDate()}">date</td>
+
+       </tr>
+
+
+    </th:block>
+
+</table>
+
 <br>
 <br>
 
-<form method="post" th:action="@{/user/branch/{id}(id=${branch.getId()})}" >
-<div> <b th:text="${user.getName()}"></b> <b>you message: </b></div>
+<form method="post" th:action="@{/user/branch/{id}(id=${branch.getId()})}">
+    <div><b th:text="${user.getName()}"></b> <b>you message: </b></div>
 
 
- <p><textarea rows="5" cols="45" name="text"></textarea></p>
- <p><input type="submit" value="Отправить"></p>
+    <p><textarea rows="5" cols="45" name="text"></textarea></p>
+    <p><input type="submit" value="Отправить"></p>
 </form>
 
 
-<input type="button" onClick='location.href="/user"' value = "to Main" />
+<form method="get" th:action="@{/{id}(id=${user.isAdmin()}?'admin':'user')}">
+    <input type="submit" value="to Main"/>
+</form>
 <br>
 <br>
 <form method="get" action="/quit">
-  <input type = "submit" value = "Quit" />
+    <input type="submit" value="Quit"/>
 </form>
 
 

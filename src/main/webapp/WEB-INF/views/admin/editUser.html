@@ -4,32 +4,32 @@
     <meta charset="UTF-8">
     <title>Main Page</title>
     <link th:href="@{/styles/css/startAndRegistr.css}" type="text/css" rel="stylesheet"/>
-  </style>
+    </style>
 </head>
 <body>
 
-<h1>Now you can registration in chat </h1>
+<h1>You can correct data about User </h1>
 <div class="registration-cssave">
-    <form th:method="POST" th:action="@{/registration}" th:object="${user}">
+    <form th:method="PATCH" th:action="@{/admin/user/{id}/editName (id=${user.getId()})}" th:object="${user}">
         <h3 class="text-center">Введите ваши данные</h3>
         <div class="form-group">
             <input class="form-control item" type="text" th:field="*{name}"
-                   maxlength="15" minlength="4" pattern="^[a-zA-Z0-9_.-]*$" id="name" placeholder="Имя (логин)" required/>
+                   maxlength="15" minlength="4" pattern="^[a-zA-Z0-9_.-]*$" id="name" required/>
         </div>
         <div class="form-group">
             <input class="form-control item" type="text" th:field="*{email}"
-                   minlength="6" pattern="^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.[a-z]{2,}" id="email" placeholder="e-mail" required/>
+                   minlength="6" pattern="^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.[a-z]{2,}" id="email" required/>
         </div>
         <div class="form-group">
             <input class="form-control item" type="text" th:field="*{birthDate}"
-                   maxlength="10" minlength="10" pattern="[0-9]{4}-[0,1]{1}[0-9]{1}-[0-3]{1}[0-9]{1}" id="birthdate" placeholder="Дата рождения" required>
+                   maxlength="10" minlength="10" pattern="[0-9]{4}-[0,1]{1}[0-9]{1}-[0-3]{1}[0-9]{1}" id="birthdate" required>
         </div>
         <div class="form-group">
-            <input class="form-control item" type="password" th:field="*{password}"
-                   minlength="3" id="password" placeholder="Пароль" required>
+            <input class="form-control item" type="text" th:field="*{password}"
+                   minlength="3" id="password" required>
         </div>
         <div class="form-group">
-            <button class="btn btn-primary create-account" type="submit">Зарегистрироваться</button>
+            <button class="btn btn-primary create-account" type="submit">Save</button>
         </div>
     </form>
 </div>

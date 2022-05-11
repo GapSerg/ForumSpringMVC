@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Message</title>
+    <style type="text/css">
+        table {width: 100%; }
+        textarea{width: 100%;}
+        th { border-bottom: 2px solid red;}
+         #col2-1 {  font-size: 1em;
+              font-weight: bold;
+              text-align: center;
+              width: 100px}
+               #col2-2 {  font-size: 1em;
+              font-weight: bold;
+              text-align: left;}
+               #col2-3 {  font-size: 1em;
+              font-weight: bold;
+              text-align: center;
+              width: 200px}
+               #col2-4 {  font-size: 1em;
+              font-weight: bold;
+              text-align: center;
+              width: 100px}
+               #col2-5 {  font-size: 1em;
+              font-weight: bold;
+              text-align: center;
+              width: 100px}
+
+              h1{ width: 100%;
+                text-align: center;
+              }
+              #col1-1 {width: 50%;
+                text-align: right;
+              }
+               #col1-2 {width: 50%;
+                text-align: left;
+              }
+    </style>
+</head>
+<body>
+
+<h1> This branch is name <i th:text="${branch.getName()}"> value</i></h1>
+<table>
+<tr>
+    <th> User</th>
+    <th>Message</th>
+    <th>Date</th>
+    <th colspan="2"> Action</th>
+</tr>
+
+    <tr>
+        <td id="col2-1" th:text="${message.getAuthor().getName()}">name</td>
+        <td id="col2-2" >
+            <form th:method="PATCH" th:action="@{/admin/message/{id}/edit(id=${message.getId()})}">
+                <textarea rows="1"  name="text" th:text="${message.getText()}"></textarea>
+                <input type="hidden" name="branch" th:value="${branch.getId()}"/>
+                <input type="submit" value="SAVE"/>
+        </form>
+
+
+        </td>
+        <td id="col2-3" th:text="${message.getDate()}">date</td>
+        <td id="col2-4">   <form th:method="DELETE" th:action="@{/admin/message/{id}(id=${message.getId()})}">
+
+            <input type="hidden" name="branch" th:value="${branch.getId()}"/>
+            <input type="submit" value="DELETE"/>
+        </form>
+        </td>
+        <td id="col2-5">  <form method="GET" th:action="@{/admin/message/{id}/edit(id=${message.getId()})}">
+            <input type="hidden" name="branch" th:value="${branch.getId()}"/>
+            <input type="submit" value="UPDATE"/>
+        </form>
+
+        </td>
+    </tr>
+
+</table>
+
+
+</body>
+</html>

@@ -24,7 +24,11 @@ public class User {
     @Getter
     private ROLE role = ROLE.USER;
 
-    public User(int id, String name, String password, String email, String birthDate, ROLE role) {
+    public boolean isAdmin(){
+        return (this.role==ROLE.ADMIN);
+    }
+
+    public User(int id,String name, String birthDate, String email, String password, ROLE role) {
         this.id = id;
         this.name = name;
         this.password = password;

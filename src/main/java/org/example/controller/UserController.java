@@ -35,7 +35,7 @@ public class UserController {
     @GetMapping()
     public String startPage(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("user");
-        System.out.println("Main/User for  User id="+ currentUser.getId());
+
         model.addAttribute("user", currentUser);
         model.addAttribute("allUsers", userDAO.getAll());
         model.addAttribute("allBranches", branchDAO.getAll());
@@ -43,9 +43,14 @@ public class UserController {
         return "user/main";
     }
     @GetMapping("/{id}")
-    public String showUserInfo(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userDAO.read(id));
-      return "user/showUserInfo";
+    public String showUserInfo(@PathVariable("id") int id, HttpSession session, Model model) {
+        model.addAttribute("user", userDAO.getById(id));
+        User currentUser = (User) session.getAttribute("user");
+        if (currentUser.getId()==id){
+            model.addAttribute("currentUser", currentUser);
+            return "admin/showUserInfo";
+        }
+        else  return "user/showUserInfo";
     }
     @GetMapping("/branch/{id}")
     public String showBranch(@PathVariable("id") int id, HttpSession session, Model model) {

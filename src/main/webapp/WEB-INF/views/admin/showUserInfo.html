@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <link th:href="@{/styles/css/startAndRegistr.css}" type="text/css" rel="stylesheet"/>
+    <style>
+        table { width:60%;
+        table-align: center;
+        text-size: 14px;
+        }
+        .col1{ width:50%;text-align: left;
+        }
+        .col2{ width:50%;text-align: center;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+<div class="registration-cssave">
+    <form th:method="get" th:action="@{/{id}(id=${currentUser.isAdmin()}?'admin':'user')}" th:object="${user}">
+        <h1>INFO ABOUT USER </h1>
+        <table>
+            <tr>
+                <td class="col1">Name</td>
+                <td class="col1" type="text" th:text="*{name}"></td>
+            </tr>
+            <tr>
+                <td class="col1"> Email</td>
+                <td class="col1" type="text" th:text="*{email}"></td>
+            </tr>
+            <tr>
+                <td class="col1"> Birth date</td>
+                <td class="col1" type="text" th:text="*{birthDate}"></td>
+            </tr>
+            <tr>
+                <td class="col1"> Password</td>
+                <td class="col1" type="text" th:text="*{password}"></td>
+            </tr>
+            <tr>
+                <td class="col1"> Role</td>
+                <td class="col1" type="text" th:text="*{role}"></td>
+            </tr>
+
+        </table>
+
+        <div class="form-group">
+            <button class="btn btn-primary create-account" type="submit">to Main</button>
+        </div>
+    </form>
+    <div class="form-group">
+        <form th:method="GET" th:action="@{/admin/user/{id}/editUser(id=${user.getId()})}">
+            <button class="btn btn-primary create-account" type="submit">EDIT</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

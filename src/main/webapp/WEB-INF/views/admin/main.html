@@ -9,12 +9,80 @@
     font-family: Verdana, Arial, Helvetica, sans-serif;
     color: green;
    }
-  </style>
+   table {width: 300px; }
+   td{width:100px;
+              font-size: 1em;
+              font-weight: bold;
+              text-align: center;}
+
+
+    </style>
 </head>
 <body>
+<h1> Hello , master <b th:text="${user.name}"/></h1>
 
 
+<table >
+    <caption><h3> Наши пользователи</h3></caption>
+    <th:block th:each="u: ${allUsers}">
+    <tr>
+        <td><a th:href="@{/admin/user/{id}(id=${u.getId()})}" th:text="${u.getName()}">user</a>
+        <td>
+            <form th:method="DELETE" th:action="@{/admin/user/{id}(id=${u.getId()})}">
+                <input type="submit" value="DELETE"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="GET" th:action="@{/admin/user/{id}/editUser(id=${u.getId()})}">
+                <input type="submit" value="UPDATE"/>
+            </form>
+        </td>
+    </tr>
+    </th:block>
+</table>
 
-<h1> Hello, <b th:text="${user.name}"/>, you password is <b th:text="${user.password}"/>  </h1>
+
+<table >
+    <caption><h3> Темы нашего чата</h3></caption>
+    <th:block th:each="b: ${allBranches}">
+    <tr>
+        <td><a th:href="@{/user/branch/{id}(id=${b.getId()})}" th:text="${b.getName()}">branch</a>
+        </td>
+        <td>
+            <form th:method="DELETE" th:action="@{/admin/branch/{id}(id=${b.getId()})}">
+                <input type="submit" value="DELETE"/>
+            </form>
+        </td>
+        <td>
+            <form method="GET" th:action="@{/admin/branch/{id}(id=${b.getId()})}">
+                <input type="submit" value="UPDATE"/>
+            </form>
+        </td>
+    </tr>
+    </th:block>
+</table>
+
+<p/>
+<p/>
+<p/>
+<p/>
+<form method="post" th:action="@{/user/newBranch}">
+    <div><b th:text="${user.getName()}"></b> <b>, you can create new branch, enter name: </b></div>
+
+
+    <p><textarea rows="2" cols="45" name="text"></textarea></p>
+    <p><input type="submit" value="создать"></p>
+</form>
+
+
+<p/>
+<p/>
+<p/>
+<p/>
+<form method="get" action="/quit">
+    <input type="submit" value="Quit"/>
+</form>
+
+
 </body>
 </html>
