@@ -10,7 +10,7 @@
 
 <h1>You can correct data about User </h1>
 <div class="registration-cssave">
-    <form th:method="PATCH" th:action="@{/admin/user/{id}/editName (id=${user.getId()})}" th:object="${user}">
+    <form th:method="PATCH" th:action="@{/admin/user/{id}/edit (id=${user.getId()})}" th:object="${user}">
         <h3 class="text-center">Введите ваши данные</h3>
         <div class="form-group">
             <input class="form-control item" type="text" th:field="*{name}"
@@ -28,6 +28,14 @@
             <input class="form-control item" type="text" th:field="*{password}"
                    minlength="3" id="password" required>
         </div>
+        <th:block th:if="${currentUser.isAdmin()}">
+            <div class="form-group">
+                <input class="form-control item" type="text" th:field="*{role}"
+                       pattern="ADMIN||USER" id="role" required>
+            </div>
+        </th:block>
+
+
         <div class="form-group">
             <button class="btn btn-primary create-account" type="submit">Save</button>
         </div>

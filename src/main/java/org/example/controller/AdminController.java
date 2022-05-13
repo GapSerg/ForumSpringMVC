@@ -49,8 +49,8 @@ public class AdminController {
     @DeleteMapping("/user/{id}")
     public String deleteUser(@PathVariable("id") int id) {
 
-        User currentUser = userDAO.getById(id);
-        userDAO.delete(currentUser);
+
+        userDAO.delete(id);
         return "redirect:/admin";
     }
 
@@ -100,8 +100,8 @@ public class AdminController {
 
     @GetMapping("/user/{id}/editUser")
     public String editUser(@PathVariable("id") int id, Model model,HttpSession session){
-        User currentUser = userDAO.getById(id);
-        model.addAttribute("user", currentUser);
+        User editUser = userDAO.getById(id);
+        model.addAttribute("user", editUser);
         model.addAttribute("currentUser", (User) session.getAttribute("user"));
 
         return "admin/editUser";
@@ -118,11 +118,10 @@ public class AdminController {
     }
 
 
-    @PatchMapping("/user/{id}/editName")
-    public String updateUser(@PathVariable("id") int id, @ModelAttribute("user") User updateUser, Model model, HttpSession session) {
+    @PatchMapping("/user/{id}/edit")
+    public String updateUser(@PathVariable("id") int id, @ModelAttribute("user") User editUser, Model model, HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
-        userDAO.update(id, updateUser);
-
+        userDAO.update(id, editUser);
         model.addAttribute("user", userDAO.getById(id));
         model.addAttribute("currentUser", currentUser);
         return "redirect:/admin/user/" + id;

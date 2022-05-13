@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
@@ -22,6 +21,7 @@ public class UserController {
       private final UserDAO userDAO;
       private final BranchDAO branchDAO;
       private final MessageDAO messageDAO;
+
 
 
     @Autowired
@@ -35,7 +35,6 @@ public class UserController {
     @GetMapping()
     public String startPage(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("user");
-
         model.addAttribute("user", currentUser);
         model.addAttribute("allUsers", userDAO.getAll());
         model.addAttribute("allBranches", branchDAO.getAll());
@@ -58,6 +57,7 @@ public class UserController {
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("branch",currentBranch);
         model.addAttribute("branchMessages", messageDAO.getBranchMessages(currentBranch));
+
         return "user/showBranch";
     }
 
