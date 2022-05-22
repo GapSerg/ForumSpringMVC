@@ -1,5 +1,7 @@
-package org.example.dao;
+package org.example.dao.impl;
+import org.example.dao.DAO;
 import org.example.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -9,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class UserDAO {
+public class UserDAO implements DAO<User> {
 
     private final JdbcTemplate jdbcTemplate;
-
+    @Autowired
     public UserDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -21,7 +23,7 @@ public class UserDAO {
 
                return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
     }
-
+    @Override
     public User getById(int id) {
 
         return jdbcTemplate.query("SELECT * FROM users WHERE id=?",
@@ -29,15 +31,8 @@ public class UserDAO {
                 .stream().findAny().orElse(null);
     }
 
-    public User getByName(String name, String password) {
-
-        return jdbcTemplate.query("SELECT * FROM users WHERE name=? and password=?",
-                        new Object[]{name,password}, new BeanPropertyRowMapper<>(User.class))
-                          .stream().findAny().orElse(null);
-
-    }
-
-    public void save(User user) {
+    @Override
+    public void save (User user) {
 
         jdbcTemplate.update("INSERT INTO users (name, password, email, birthdate, role) VALUES(?, ?, ?, ?, ?)",
                 user.getName(), user.getPassword(),user.getEmail(),user.getBirthDate(),user.getRole().toString());
@@ -48,6 +43,8 @@ public class UserDAO {
     }
 
 
+
+    @Override
     public void update(int id, User updateUserData) {
         System.out.println(id);
         System.out.println(updateUserData);
@@ -56,6 +53,15 @@ public class UserDAO {
                 updateUserData.getBirthDate(), updateUserData.getRole().toString(),
                 id);
     }
+
+    public User getByName(String name, String password) {
+
+        return jdbcTemplate.query("SELECT * FROM users WHERE name=? and password=?",
+                        new Object[]{name,password}, new BeanPropertyRowMapper<>(User.class))
+                .stream().findAny().orElse(null);
+
+    }
+
 
 
 
