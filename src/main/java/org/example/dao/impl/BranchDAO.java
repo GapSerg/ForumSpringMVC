@@ -1,7 +1,15 @@
 package org.example.dao.impl;
 import org.example.dao.DAO;
 import org.example.model.Branch;
+
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.annotations.QueryBinder;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 
 import java.util.ArrayList;
@@ -9,6 +17,19 @@ import java.util.List;
 
 @Component
 public class BranchDAO implements DAO<Branch> {
+
+
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public BranchDAO(SessionFactory sessionFactory) {
+
+        this.sessionFactory = sessionFactory;
+    }
+
+    private Session currentSession(){
+        return sessionFactory.openSession();
+    }
     private static int countBranch;
 
 
@@ -22,32 +43,44 @@ public class BranchDAO implements DAO<Branch> {
 
     @Override
     public List<Branch> getAll() {
-        return branches;
+        System.out.println("-------------------getAll------------------");
+        return currentSession().createQuery("from org.example.model.Branch", Branch.class).list();
     }
+
+
     @Override
     public void save(Branch branch) {
-        branches.add(new Branch(++countBranch, branch.getName(), branch.getAuthor()));
+        System.out.println("-------------------save------------------");
+       currentSession().save(branch);
     }
 
     @Override
     public void update(int id, Branch updateBranchData) {
-     Branch currentBranch = getById(id);
-     currentBranch.setName(updateBranchData.getName());
+        System.out.println("-------------------Update------------------");
+        Branch branchToBeUpdated = currentSession().get(Branch.class, id);
+
+        branchToBeUpdated.setName(updateBranchData.getName());
     }
 
     @Override
     public void delete(int id) {
-        branches.removeIf(b -> b.getId() == id);
+        currentSession().remove(currentSession().get(Branch.class, id));
     }
 
 
     @Override
     public Branch getById(int id) {
-        return branches.stream().filter(b -> b.getId() == id).findAny().orElse(null);
+        System.out.println("-------------------getById------------------");
+        return currentSession().get(Branch.class, id);
 
     }
     public Branch getByName(String branchName){
-        return branches.stream().filter(b -> b.getName().equals(branchName)).findAny().orElse(null);
+        System.out.println("-------------------getByName------------------");
+        Query<Branch> q = currentSession().createQuery(
+                "from org.example.model.Branch where name = :name",
+                Branch.class);
+        q.setParameter("name", branchName);
+        return  q.list().stream().findAny().orElse(null);
 
     }
 

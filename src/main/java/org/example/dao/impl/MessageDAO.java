@@ -29,11 +29,11 @@ public class MessageDAO implements DAO<Message> {
         this.branchDAO = branchDAO;
         messages = new ArrayList<>();
         messages.add(new Message(++countMessage, "Hello, gays", new Date(), userDAO.getById(1), branchDAO.getById(1)));
-        messages.add(new Message(++countMessage, "My name is, Nick", new Date(), userDAO.getById(2), branchDAO.getById(2)));
-        messages.add(new Message(++countMessage, "Hello, gays", new Date(), userDAO.getById(3), branchDAO.getById(2)));
+        messages.add(new Message(++countMessage, "My name is, Nick", new Date(), userDAO.getById(2), branchDAO.getById(5)));
+        messages.add(new Message(++countMessage, "Hello, gays", new Date(), userDAO.getById(9), branchDAO.getById(4)));
         messages.add(new Message(++countMessage, "How are you", new Date(), userDAO.getById(1), branchDAO.getById(1)));
-        messages.add(new Message(++countMessage, "Good bye", new Date(), userDAO.getById(2), branchDAO.getById(2)));
-        messages.add(new Message(++countMessage, "La-la-la", new Date(), userDAO.getById(3), branchDAO.getById(3)));
+        messages.add(new Message(++countMessage, "Good bye", new Date(), userDAO.getById(2), branchDAO.getById(4)));
+        messages.add(new Message(++countMessage, "La-la-la", new Date(), userDAO.getById(8), branchDAO.getById(3)));
     }
 
 

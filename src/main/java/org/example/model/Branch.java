@@ -1,25 +1,37 @@
 package org.example.model;
 
+
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
-import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+
+@Entity
+@Table(name = "branches")
 public class Branch {
     @Getter
     @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     @Getter
     @Setter
+    @Column(name = "name")
     private String name;
     @Getter
     @Setter
-    private int author;
+    @Column(name = "authorId")
+    private int authorId;
 
 
-    public Branch(int id, String name, int author) {
+    public Branch(int id, String name, int authorId) {
         this.id = id;
-        this.author=author;
+        this.authorId =authorId;
         this.name = name;
 
     }

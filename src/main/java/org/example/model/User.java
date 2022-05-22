@@ -3,6 +3,10 @@ package org.example.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class User {
     @Setter
     @Getter
