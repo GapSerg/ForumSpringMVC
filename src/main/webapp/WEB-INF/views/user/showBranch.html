@@ -20,8 +20,6 @@
               h1{ width: 100%;
                 text-align: center;
               }
-
-
     </style>
 </head>
 <body>
@@ -35,17 +33,27 @@
         <th>Message</th>
         <th>Date</th>
     </tr>
+    <th:block1 th:if!="${branchMessages.isEmpty()}">
 
-   <th:block th:each="m: ${branchMessages}">
-       <tr>
-           <td id = "col1" th:text="${m.getAuthor().getName()}">name</td>
-           <td id = "col2"  th:text="${m.getText()}"> <pre>text</pre></td>
-           <td id = "col3" th:text="${m.getDate()}">date</td>
+    <th:block th:each="m: ${branchMessages}">
+        <tr>
+            <td id="col1" th:text="${m.getAuthor().getName()}">name</td>
+            <td id="col2" th:text="${m.getText()}">
+                <pre>text</pre>
+            </td>
+            <td id="col3" th:text="${m.getDate()}">date</td>
 
-       </tr>
+        </tr>
 
 
     </th:block>
+        <th:block2 th:if="${branchMessages.isEmpty()}">
+            <tr>
+               <td colspan="3"  align="center"> SORRY </td>
+            </tr>
+        </th:block2>
+    </th:block1>
+
 
 </table>
 
@@ -64,6 +72,8 @@
 <form method="get" th:action="@{/{id}(id=${user.isAdmin()}?'admin':'user')}">
     <input type="submit" value="to Main"/>
 </form>
+
+
 <br>
 <br>
 <form method="get" action="/quit">

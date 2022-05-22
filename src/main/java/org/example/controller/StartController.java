@@ -1,14 +1,11 @@
 package org.example.controller;
-import org.example.dao.UserDAO;
+import org.example.dao.impl.UserDAO;
 import org.example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -33,12 +30,7 @@ public class StartController {
     }
     @GetMapping("/quit")
     public String quitToStartPage(HttpSession session, HttpServletResponse response) {
-        Cookie cookieUser1 = new Cookie("id", "");
-        Cookie cookieUser2 = new Cookie("name", "");
-        cookieUser1.setMaxAge(0);
-        cookieUser2.setMaxAge(0);
-        response.addCookie(cookieUser1);
-        response.addCookie(cookieUser2);
+
         session.removeAttribute("user");
         return "redirect:start";
     }
@@ -50,16 +42,10 @@ public class StartController {
     }
 
     @PostMapping("/registration")
-    public String doRegistration(@ModelAttribute("user") User currentUser,
+    public String doRegistration(@ModelAttribute("user") User tempUser,
                                  HttpSession session,HttpServletResponse response) {
-        userDAO.save(currentUser);
-
-        Cookie cookieUser1 = new Cookie("id", ""+currentUser.getId());
-        Cookie cookieUser2 = new Cookie("name", currentUser.getName());
-        cookieUser1.setMaxAge(-1);
-        cookieUser2.setMaxAge(-1);
-        response.addCookie(cookieUser1);
-        response.addCookie(cookieUser2);
+        userDAO.save(tempUser);
+        User currentUser = userDAO.getByName(tempUser.getName(), tempUser.getPassword());
 
         session.setAttribute("user", currentUser);
 
@@ -83,8 +69,8 @@ public class StartController {
 
         Cookie cookieUser1 = new Cookie("id", ""+currentUser.getId());
         Cookie cookieUser2 = new Cookie("name", currentUser.getName());
-        cookieUser1.setMaxAge(-1);
-        cookieUser2.setMaxAge(-1);
+        cookieUser1.setMaxAge(5*60);
+        cookieUser2.setMaxAge(5*60);
         response.addCookie(cookieUser1);
         response.addCookie(cookieUser2);
 
@@ -98,4 +84,6 @@ public class StartController {
 
 
     }
+
+
 }

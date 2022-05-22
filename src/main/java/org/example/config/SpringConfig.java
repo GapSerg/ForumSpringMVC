@@ -1,14 +1,14 @@
 package org.example.config;
 
-import org.example.dao.BranchDAO;
-import org.example.dao.MessageDAO;
-import org.example.dao.UserDAO;
-import org.example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -17,10 +17,14 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import javax.sql.DataSource;
+
 
 @Configuration
 @ComponentScan("org.example")
 @EnableWebMvc
+@PropertySource("classpath:persistence.properties")
+
 public class SpringConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
 
@@ -30,7 +34,7 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public SpringResourceTemplateResolver templateResolver() {
+    public SpringResourceTemplateResolver templateResolver( ) {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 
         templateResolver.setApplicationContext(applicationContext);
@@ -61,6 +65,23 @@ public class SpringConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/styles/css/**")
                 .addResourceLocations("classpath:/static/css/");
+    }
+
+    @Bean
+    public DataSource dataSource(@Value("${url}") String url,
+                                @Value("${user}") String user,
+                                @Value("${password}") String password) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUrl(url);
+        dataSource.setUsername(user);
+        dataSource.setPassword(password);
+
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 
 

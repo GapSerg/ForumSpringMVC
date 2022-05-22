@@ -1,58 +1,43 @@
 package org.example.config;
 
-import org.example.dao.UserDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
+import org.example.dao.impl.UserDAO;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-@WebFilter({"/user/*","/admin/*"})
+@WebFilter({"/user/*", "/admin/*"})
 public class FilterCookie implements Filter {
-    private static int countGlobal;
-    private int countLocal;
-
-
-
+private UserDAO userDAO;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-      // Filter.super.init(filterConfig);
-        System.out.println("////////-----------start---------------//////////////");
-
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        Cookie[] cookies = httpRequest.getCookies();
-        countLocal++;
-        countGlobal++;
-
-        System.out.println("////////-----Local="+countLocal+"------Global="+countGlobal+"--------//////////////");
-//        int flag=0;
-        for (Cookie cook : cookies) {
-            System.out.println(cook.getName()+"-------"+cook.getValue());
+        HttpServletResponse httpResponce = (HttpServletResponse) response;
+        HttpSession session = httpRequest.getSession();
 
 
+        if (session.getAttribute("user") != null) {
+            filterChain.doFilter(request, response);
+
+        } else {
+           httpResponce.sendRedirect("/start");
         }
-//        if (flag==2){
-             filterChain.doFilter(request, response);
-//        }
-//        else
-//            request.getRequestDispatcher("/start").forward(request, response);
+
 
     }
 
 
     @Override
     public void destroy() {
-     //   Filter.super.destroy();
-        System.out.println("////////-----------finish---------------//////////////");
+
     }
 }

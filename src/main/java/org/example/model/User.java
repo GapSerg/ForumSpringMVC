@@ -4,7 +4,7 @@ package org.example.model;
 import lombok.Getter;
 import lombok.Setter;
 public class User {
-
+    @Setter
     @Getter
     int id;
     @Setter
@@ -19,7 +19,6 @@ public class User {
     @Setter
     @Getter
     private String birthDate;
-
     @Setter
     @Getter
     private ROLE role = ROLE.USER;
@@ -28,7 +27,7 @@ public class User {
         return (this.role==ROLE.ADMIN);
     }
 
-    public User(int id,String name, String birthDate, String email, String password, ROLE role) {
+    public User(int id,String name, String password, String email, String birthDate, ROLE role) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -44,7 +43,7 @@ public class User {
 
 
 
-    public User(int id,String name, String birthDate, String email, String password) {
+    public User(int id,String name, String password, String email, String birthDate) {
         this.id=id;
         this.birthDate = birthDate;
         this.name = name;
