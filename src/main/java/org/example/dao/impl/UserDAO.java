@@ -39,6 +39,7 @@ public class UserDAO implements DAO<User> {
     }
 
     public void delete(int id) {
+
         jdbcTemplate.update("DELETE FROM users WHERE id=?", id);
     }
 

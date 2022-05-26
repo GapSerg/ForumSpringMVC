@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -26,9 +29,10 @@ import java.util.Properties;
 @Configuration
 @ComponentScan("org.example")
 @EnableWebMvc
-@PropertySource("classpath:persistence.properties")
-
+@PropertySource("classpath:hibernate.properties")
+@EnableTransactionManagement(proxyTargetClass = true)
 public class SpringConfig implements WebMvcConfigurer {
+
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -72,9 +76,9 @@ public class SpringConfig implements WebMvcConfigurer {
 
     @Bean
     public DataSource dataSource( @Value("${driver}") String driver,
-                                @Value("${url}") String url,
-                                @Value("${user}") String user,
-                                @Value("${password}") String password) {
+                                  @Value("${url}") String url,
+                                  @Value("${user}") String user,
+                                  @Value("${password}") String password) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driver);
         dataSource.setUrl(url);
@@ -108,5 +112,12 @@ public class SpringConfig implements WebMvcConfigurer {
         return lSFB;
     }
 
+    @Bean
+    public PlatformTransactionManager hibernateTransactionManager(LocalSessionFactoryBean localSessionFactoryBean) {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(localSessionFactoryBean.getObject());
+
+        return transactionManager;
+    }
 
 }

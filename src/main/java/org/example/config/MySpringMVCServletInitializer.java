@@ -28,6 +28,7 @@ public class MySpringMVCServletInitializer extends AbstractAnnotationConfigDispa
     @Override
     public void onStartup(ServletContext aServletContext) throws ServletException {
         super.onStartup(aServletContext);
+
         registerHiddenFieldFilter(aServletContext);
     }
 
@@ -35,5 +36,7 @@ public class MySpringMVCServletInitializer extends AbstractAnnotationConfigDispa
         aContext.addFilter("hiddenHttpMethodFilter",
                 new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null ,true, "/*");
     }
+
+
 
 }
