@@ -9,6 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -17,15 +21,18 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+
 import javax.sql.DataSource;
+import java.util.Properties;
 
 
 @Configuration
 @ComponentScan("org.example")
 @EnableWebMvc
-@PropertySource("classpath:persistence.properties")
-
+@PropertySource("classpath:hibernate.properties")
+@EnableTransactionManagement(proxyTargetClass = true)
 public class SpringConfig implements WebMvcConfigurer {
+
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -68,10 +75,12 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public DataSource dataSource(@Value("${url}") String url,
-                                @Value("${user}") String user,
-                                @Value("${password}") String password) {
+    public DataSource dataSource( @Value("${driver}") String driver,
+                                  @Value("${url}") String url,
+                                  @Value("${user}") String user,
+                                  @Value("${password}") String password) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driver);
         dataSource.setUrl(url);
         dataSource.setUsername(user);
         dataSource.setPassword(password);
@@ -85,5 +94,30 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
 
+    private Properties hibernateProperties() {
+        Properties properties = new Properties();
+        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        properties.put("hibernate.show_sql", "true");
+
+        return properties;
+    }
+
+
+    @Bean
+    public LocalSessionFactoryBean localSessionFactoryBean(DataSource dataSource) {
+        LocalSessionFactoryBean lSFB = new LocalSessionFactoryBean();
+        lSFB.setDataSource(dataSource);
+        lSFB.setPackagesToScan("org.example.model");
+        lSFB.setHibernateProperties(hibernateProperties());
+        return lSFB;
+    }
+
+    @Bean
+    public PlatformTransactionManager hibernateTransactionManager(LocalSessionFactoryBean localSessionFactoryBean) {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(localSessionFactoryBean.getObject());
+
+        return transactionManager;
+    }
 
 }
